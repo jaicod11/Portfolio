@@ -32,7 +32,17 @@
       "Bash(pkill -f \"next start\")",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git -c 'user.name=Jaideep Kundu' -c user.email=jaideepkundu92@gmail.com commit -q -m ' *)"
+      "Bash(git -c 'user.name=Jaideep Kundu' -c user.email=jaideepkundu92@gmail.com commit -q -m ' *)",
+      "Bash(shasum -a 256 JaideepKundu_Resume.pdf Portfolio/public/resume.pdf)",
+      "Bash(python3 -)",
+      "Bash(cp /Users/Messi/Downloads/JaideepKundu_Resume.pdf /Users/Messi/Downloads/Portfolio/public/resume.pdf)",
+      "Bash(shasum -a 256 /Users/Messi/Downloads/Portfolio/public/resume.pdf)",
+      "Bash(echo \"--- exit: $? \\(1 = no stale refs\\) ---\")",
+      "Bash(sed -i '' 's|localhost:4312|localhost:4313|' shot.mjs)",
+      "Bash(sed -i '' 's|localhost:4312|localhost:4315|' interact.mjs)",
+      "Bash(curl -s https://api.github.com/rate_limit)",
+      "Bash(python3 -c \"import sys,json;d=json.load\\(sys.stdin\\)['resources']['core'];print\\(d\\)\")",
+      "Bash(curl -s -m 60 http://localhost:4315/api/github)"
     ]
   }
 }

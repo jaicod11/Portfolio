@@ -158,15 +158,26 @@ async function fetchViaPublic(): Promise<GitHubResponse> {
     }),
   ]);
 
+  // Only the calendar is load-bearing. The contributions page is plain HTML and
+  // isn't subject to the REST quota, whereas api.github.com allows just 60
+  // unauthenticated requests/hour — so treat the profile and repo counts as
+  // best-effort and still return the heatmap when that quota is spent.
   if (!contribRes.ok) throw new Error(`Contributions page responded ${contribRes.status}`);
-  if (!userRes.ok) throw new Error(`User API responded ${userRes.status}`);
 
   const contributions = parseContributionHtml(await contribRes.text());
   if (contributions.length === 0) throw new Error("Could not parse contribution grid");
 
-  const user = await userRes.json();
+  let publicRepos: number | null = null;
+  let followers: number | null = null;
+  if (userRes.ok) {
+    const user = await userRes.json();
+    publicRepos = user.public_repos ?? null;
+    followers = user.followers ?? null;
+  } else {
+    console.warn(`[api/github] user API responded ${userRes.status}; omitting profile counts`);
+  }
 
-  let totalStars = 0;
+  let totalStars: number | null = null;
   if (reposRes.ok) {
     const repos: { stargazers_count: number; fork: boolean }[] = await reposRes.json();
     totalStars = repos
@@ -179,9 +190,9 @@ async function fetchViaPublic(): Promise<GitHubResponse> {
     source: "public",
     username: USERNAME,
     totalContributions: contributions.reduce((sum, d) => sum + d.count, 0),
-    publicRepos: user.public_repos ?? 0,
+    publicRepos,
     totalStars,
-    followers: user.followers ?? 0,
+    followers,
     contributions,
   };
 }

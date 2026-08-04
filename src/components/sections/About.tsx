@@ -31,7 +31,12 @@ export function About() {
       <Reveal className="grid grid-cols-1 gap-4 md:grid-cols-3 md:auto-rows-[minmax(0,1fr)]">
         {/* ── Bio (wide) ───────────────────────────────────── */}
         <RevealItem className="md:col-span-2 md:row-span-2">
-          <GlassCard className="h-full p-6 sm:p-8" spotlight glow="cyan">
+          <GlassCard
+            className="h-full p-6 sm:p-8"
+            contentClassName="flex flex-col"
+            spotlight
+            glow="cyan"
+          >
             <div className="flex items-start gap-5">
               {/* Monogram stands in for a photo — drop an <Image> here to swap. */}
               <div className="relative hidden shrink-0 sm:block">
@@ -50,25 +55,21 @@ export function About() {
             </div>
 
             <div className="mt-6 space-y-4 text-sm leading-relaxed text-muted sm:text-[15px]">
+              <p>CS undergrad at VIT-AP, 2023–2027.</p>
               <p>
-                I&apos;m a final-year CS undergraduate at VIT-AP, currently an{" "}
-                <span className="text-fg">SDE Intern at Bluestock Fintech</span>, where I
-                build production ETL pipelines and data infrastructure for a financial
-                intelligence platform covering Indian equity markets.
+                I build things that have to keep running — real-time systems, retrieval
+                pipelines, and backends that survive concurrency.
               </p>
               <p>
-                My work sits mostly on the backend — I&apos;ve shipped a Financial Ratio
-                Engine computing 30+ KPIs across 1,073 company-year records, an agentic RAG
-                pipeline over a multi-format corpus, and a real-time collaborative editor
-                with an Operational Transformation engine written from scratch.
-              </p>
-              <p>
-                I care about the unglamorous parts: schema integrity, regression suites, and
-                latency budgets that hold up under concurrency.
+                At <span className="text-fg">Bluestock Fintech</span> I built the ETL and
+                ratio engine behind a Nifty 100 platform, and the test suite that kept it
+                honest.
               </p>
             </div>
 
-            <div className="mt-7 flex flex-wrap gap-2">
+            {/* mt-auto anchors the chips to the card base so the taller
+                two-row span doesn't leave a void under the short bio. */}
+            <div className="mt-auto flex flex-wrap gap-2 pt-8">
               {["Python", "SQL", "Node.js", "React", "Docker"].map((t) => (
                 <span
                   key={t}
@@ -85,10 +86,10 @@ export function About() {
         <RevealItem>
           <GlassCard className="h-full p-6" glow="violet">
             <Briefcase className="h-5 w-5 text-accent-2" />
-            <p className="eyebrow mt-4">Currently</p>
+            <p className="eyebrow mt-4">Experience</p>
             <h4 className="mt-2 font-display text-lg font-semibold">Bluestock Fintech</h4>
             <p className="mt-1 text-sm text-muted">SDE Intern · Remote</p>
-            <p className="mt-3 font-mono text-[11px] text-faint">May 2026 — Present</p>
+            <p className="mt-3 font-mono text-[11px] text-faint">May 2026 — July 2026</p>
 
             <dl className="mt-5 grid grid-cols-2 gap-3 border-t border-hairline pt-4">
               <div>
@@ -119,7 +120,7 @@ export function About() {
 
             <div className="mt-4 flex items-center justify-between border-t border-hairline pt-4">
               <span className="font-mono text-[11px] text-faint">2023 — 2027</span>
-              <span className="font-mono text-[11px] text-accent">CGPA 7.6/10</span>
+              <span className="font-mono text-[11px] text-accent">CGPA 8.6/10</span>
             </div>
           </GlassCard>
         </RevealItem>

@@ -8,9 +8,9 @@ export const site = {
   name: "Jaideep Kundu",
   firstName: "Jaideep",
   role: "Backend & Full-Stack Engineer",
-  tagline: "Final-year B.Tech CSE @ VIT-AP · SDE Intern @ Bluestock Fintech",
+  tagline: "Final-year B.Tech CSE @ VIT-AP · ex-SDE Intern @ Bluestock Fintech",
   blurb:
-    "I build production backend systems — ETL pipelines, agentic RAG, and real-time collaborative infrastructure.",
+    "Real-time systems, retrieval pipelines, and the tests that keep them honest.",
   email: "jaideepkundu92@gmail.com",
   phone: "+91 96084 25857",
   location: "Amaravati, India",

@@ -68,7 +68,12 @@ Both cards fetch from internal API routes, cached for an hour (`revalidate = 360
 
 - **`/api/github`** — GraphQL when `GITHUB_TOKEN` is set, otherwise it parses the
   public contribution grid (joining each day cell to its tooltip to recover real
-  counts, not just intensity levels).
+  counts, not just intensity levels). The grid is plain HTML and unmetered, while
+  the repo/follower counts come from `api.github.com`, which allows only 60
+  unauthenticated requests/hour — so those are fetched best-effort. When that
+  quota is spent the heatmap still renders and the affected tiles show a dash
+  rather than a misleading `0`. Setting `GITHUB_TOKEN` raises the limit to 5,000/hr
+  and avoids this entirely.
 - **`/api/leetcode`** — LeetCode's own GraphQL endpoint, falling back to the
   community `alfa-leetcode-api` wrapper.
 

@@ -11,9 +11,14 @@ export type GitHubStats = {
   source: "graphql" | "public";
   username: string;
   totalContributions: number;
-  publicRepos: number;
-  totalStars: number;
-  followers: number;
+  /**
+   * Profile-derived counts. Null when the REST quota is spent and only the
+   * contribution grid could be recovered — the UI renders a dash rather than a
+   * misleading zero.
+   */
+  publicRepos: number | null;
+  totalStars: number | null;
+  followers: number | null;
   contributions: ContributionDay[];
 };
 

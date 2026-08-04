@@ -30,7 +30,7 @@ function StatTile({
   compact,
 }: {
   icon: React.ComponentType<{ className?: string }>;
-  value: number;
+  value: number | null;
   label: string;
   compact?: boolean;
 }) {
@@ -38,7 +38,13 @@ function StatTile({
     <div className="rounded-xl border border-hairline bg-white/[0.03] p-3.5">
       <Icon className="h-4 w-4 text-accent" />
       <p className="mt-2.5 font-display text-xl font-semibold tracking-tight">
-        <CountUp value={value} compact={compact} />
+        {value === null ? (
+          <span className="text-faint" title="Unavailable — GitHub rate limit reached">
+            —
+          </span>
+        ) : (
+          <CountUp value={value} compact={compact} />
+        )}
       </p>
       <p className="font-mono text-[10px] uppercase tracking-wider text-faint">{label}</p>
     </div>

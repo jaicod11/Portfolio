@@ -13,6 +13,12 @@ type Props = {
   glow?: "cyan" | "violet" | "none";
   /** Adds a cursor-following spotlight on the card surface. */
   spotlight?: boolean;
+  /**
+   * Classes for the inner content wrapper. Children live inside that wrapper,
+   * so layout modes like `flex flex-col` (needed for `mt-auto` to work) belong
+   * here rather than on `className`, which styles the card shell.
+   */
+  contentClassName?: string;
   as?: "div" | "article" | "li";
 };
 
@@ -33,6 +39,7 @@ export function GlassCard({
   tilt = 7,
   glow = "cyan",
   spotlight = false,
+  contentClassName,
   as = "div",
 }: Props) {
   const { ref, rotateX, rotateY, glareX, glareY, onMouseMove, onMouseLeave, enabled } =
@@ -81,7 +88,13 @@ export function GlassCard({
         />
       )}
 
-      <div className={cn("relative h-full", tiltActive && "[transform:translateZ(28px)]")}>
+      <div
+        className={cn(
+          "relative h-full",
+          tiltActive && "[transform:translateZ(28px)]",
+          contentClassName,
+        )}
+      >
         {children}
       </div>
     </MotionTag>

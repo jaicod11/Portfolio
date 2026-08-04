@@ -188,7 +188,12 @@ export function Contact() {
 
         {/* ── Direct links ─────────────────────────────────── */}
         <RevealItem className="h-full">
-          <GlassCard className="flex h-full flex-col p-6 sm:p-8" tilt={0} glow="violet">
+          <GlassCard
+            className="h-full p-6 sm:p-8"
+            contentClassName="flex flex-col"
+            tilt={0}
+            glow="violet"
+          >
             <h3 className="font-display text-lg font-semibold">Elsewhere</h3>
             <p className="mt-2 text-sm leading-relaxed text-muted">
               Or skip the form entirely.
