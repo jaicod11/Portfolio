@@ -1,0 +1,227 @@
+@import "tailwindcss";
+
+/* ───────────────────────────────────────────────────────────
+   Nebula Bento — design tokens
+   ─────────────────────────────────────────────────────────── */
+@theme {
+  --color-void: #0a0a0f;
+  --color-void-soft: #0f0f17;
+  --color-ink: #05050a;
+
+  --color-accent: #22d3ee;
+  --color-accent-2: #a855f7;
+
+  --color-glass: rgba(255, 255, 255, 0.04);
+  --color-glass-strong: rgba(255, 255, 255, 0.07);
+  --color-hairline: rgba(255, 255, 255, 0.1);
+
+  --color-fg: #e8e9f0;
+  --color-muted: #9ea3b8;
+  --color-faint: #6b7089;
+
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --radius-bento: 1.25rem;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ───────────────────────────────────────────────────────────
+   Base
+   ─────────────────────────────────────────────────────────── */
+html {
+  /* Lenis drives scrolling; keep native smooth off so they don't fight. */
+  scroll-behavior: auto;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-void);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+/* Ambient nebula wash. Fixed so it never adds scroll height. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      52rem 40rem at 12% -8%,
+      color-mix(in oklab, var(--color-accent) 12%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      46rem 34rem at 92% 8%,
+      color-mix(in oklab, var(--color-accent-2) 13%, transparent),
+      transparent 68%
+    ),
+    radial-gradient(
+      60rem 44rem at 50% 108%,
+      color-mix(in oklab, var(--color-accent-2) 9%, transparent),
+      transparent 72%
+    );
+}
+
+/* Fine grain — kills banding on the large gradients. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.3;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-accent) 32%, transparent);
+  color: #fff;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 99px;
+  border: 2px solid var(--color-ink);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklab, var(--color-accent) 55%, transparent);
+}
+
+/* Consistent focus ring across the whole site. */
+:where(a, button, input, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ───────────────────────────────────────────────────────────
+   Component utilities
+   ─────────────────────────────────────────────────────────── */
+@utility glass {
+  background: var(--color-glass);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--color-hairline);
+}
+
+/* Section eyebrow: "01 / Hero" */
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-faint);
+}
+
+@utility text-gradient {
+  background: linear-gradient(
+    100deg,
+    var(--color-accent) 0%,
+    #7dd3fc 38%,
+    var(--color-accent-2) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Gradient hairline used to separate sections. */
+@utility rule-glow {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-hairline) 22%,
+    color-mix(in oklab, var(--color-accent) 34%, transparent) 50%,
+    var(--color-hairline) 78%,
+    transparent
+  );
+}
+
+/* ───────────────────────────────────────────────────────────
+   Keyframes
+   ─────────────────────────────────────────────────────────── */
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-accent) 45%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 12px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-float-y {
+  animation: float-y 4s var(--ease-out-expo) infinite;
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 0.7s ease-out;
+}
+
+/* Loading skeleton for the async stat cards. */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.045);
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.07),
+    transparent
+  );
+  animation: shimmer 1.6s infinite;
+}
+
+/* ───────────────────────────────────────────────────────────
+   Reduced motion — honour the OS setting everywhere.
+   ─────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
