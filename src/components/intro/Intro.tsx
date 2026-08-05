@@ -28,7 +28,9 @@ const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export function Intro({ onDone }: { onDone: () => void }) {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  // The field creates and owns its own <canvas> inside this container, so a
+  // remount can never hand two renderers the same GL context.
+  const stageRef = useRef<HTMLDivElement | null>(null);
   const fieldRef = useRef<FieldController | null>(null);
 
   // Refs rather than state for the guards: these are read inside effects that
@@ -142,8 +144,8 @@ export function Intro({ onDone }: { onDone: () => void }) {
   useEffect(() => {
     if (finishedRef.current) return;
 
-    const canvas = canvasRef.current;
-    if (!canvas) {
+    const stage = stageRef.current;
+    if (!stage) {
       finish();
       return;
     }
@@ -156,7 +158,7 @@ export function Intro({ onDone }: { onDone: () => void }) {
     const at = (target: number, fn: () => void) =>
       timers.push(window.setTimeout(fn, Math.max(target - (performance.now() - t0), 0)));
 
-    createParticleField(canvas, NAME)
+    createParticleField(stage, NAME, () => cancelled)
       .then((field) => {
         if (cancelled) {
           field?.dispose();
@@ -214,7 +216,7 @@ export function Intro({ onDone }: { onDone: () => void }) {
         }}
       />
 
-      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+      <div ref={stageRef} aria-hidden className="absolute inset-0" />
 
       {/* Vignette over the field, darkening toward the edges. */}
       <div

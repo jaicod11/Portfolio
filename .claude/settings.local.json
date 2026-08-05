@@ -46,7 +46,9 @@
       "Bash(node intro-tests.mjs)",
       "Bash(node intro-tests-extra.mjs)",
       "Bash(node timeout-test.mjs)",
-      "Bash(sed -i '' 's|localhost:4316|localhost:4320|' interact.mjs)"
+      "Bash(sed -i '' 's|localhost:4316|localhost:4320|' interact.mjs)",
+      "Bash(curl -s -o /dev/null -w \"dev status=%{http_code}\\\\n\" http://localhost:4322/)",
+      "Bash(node repro.mjs)"
     ]
   }
 }

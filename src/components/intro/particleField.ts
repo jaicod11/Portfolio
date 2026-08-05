@@ -222,14 +222,35 @@ const FRAGMENT_SHADER = /* glsl */ `
   }
 `;
 
+/**
+ * @param container element the field appends its own canvas to
+ * @param isCancelled polled after the font wait so an aborted run never builds
+ *        a renderer at all — React StrictMode remounts this effect in dev
+ */
 export async function createParticleField(
-  canvas: HTMLCanvasElement,
+  container: HTMLElement,
   text: string,
+  isCancelled: () => boolean = () => false,
 ): Promise<FieldController | null> {
   // Sampling the fallback face then swapping would reflow the whole word.
   await waitForFonts();
 
+  // The caller may have unmounted while we waited on fonts.
+  if (isCancelled()) return null;
+
   const fontFamily = resolveFontFamily("--font-space-grotesk", "sans-serif");
+
+  /*
+   * Each field owns its canvas rather than sharing one from the React tree.
+   * Two WebGLRenderers built on the same <canvas> get the *same* GL context —
+   * they'd stack additively into a white blob, and the first one's
+   * forceContextLoss() would pull the context out from under the second.
+   */
+  const canvas = document.createElement("canvas");
+  canvas.style.cssText = "position:absolute;inset:0;width:100%;height:100%;display:block";
+  container.appendChild(canvas);
+
+  const removeCanvas = () => canvas.remove();
 
   let renderer: THREE.WebGLRenderer;
   try {
@@ -240,6 +261,7 @@ export async function createParticleField(
       powerPreference: "high-performance",
     });
   } catch {
+    removeCanvas();
     return null;
   }
 
@@ -281,6 +303,7 @@ export async function createParticleField(
   if (!sample) {
     renderer.dispose();
     renderer.forceContextLoss();
+    removeCanvas();
     return null;
   }
 
@@ -346,7 +369,9 @@ export async function createParticleField(
   let assemblyDuration = 0;
   let raf = 0;
   let disposed = false;
-  const clock = new THREE.Clock();
+  // performance.now() rather than THREE.Clock, which is deprecated in r18x
+  // and logs a warning on construction.
+  const startedAt = performance.now();
 
   // power3.inOut
   const easePower3InOut = (t: number) =>
@@ -356,7 +381,7 @@ export async function createParticleField(
     if (disposed) return;
     raf = requestAnimationFrame(tick);
 
-    material.uniforms.uTime.value = clock.getElapsedTime();
+    material.uniforms.uTime.value = (performance.now() - startedAt) / 1000;
 
     if (assemblyDuration > 0) {
       const raw = Math.min((performance.now() - assemblyStart) / assemblyDuration, 1);
@@ -393,6 +418,8 @@ export async function createParticleField(
       // Drops the WebGL context so nothing keeps rendering behind the hero.
       renderer.dispose();
       renderer.forceContextLoss();
+      // Safe because this canvas belongs to this field alone.
+      removeCanvas();
     },
   };
 }
