@@ -20,6 +20,7 @@ export const site = {
 
   github: "jaicod11",
   leetcode: "devil2411",
+  linkedin: "jaideep-kundu"
 } as const;
 
 export type SocialLink = {
@@ -39,7 +40,7 @@ export const socials: SocialLink[] = [
   },
   {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/jaideep-kundu/",
+    href: `https://www.linkedin.com/in/${site.linkedin}/`,
     icon: FaLinkedinIn,
     hoverClass: "group-hover:text-[#0A66C2]",
   },
