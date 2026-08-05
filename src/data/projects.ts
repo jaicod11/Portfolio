@@ -49,7 +49,7 @@ export const featuredProjects: Project[] = [
     accent: ["#a855f7", "#ec4899"],
     metrics: [
       { value: "<50ms", label: "sync latency" },
-      { value: "100%", label: "conflict-free" },
+      { value: "9", label: "transform cases handled" },
       { value: "8+", label: "app views" },
     ],
   },

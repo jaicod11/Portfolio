@@ -1,4 +1,8 @@
+"use client";
+
+import { useCallback, useState } from "react";
 import dynamic from "next/dynamic";
+import { Intro } from "@/components/intro/Intro";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Projects } from "@/components/sections/Projects";
@@ -13,8 +17,18 @@ const Stats = dynamic(() =>
 );
 
 export default function Home() {
+  const [introDone, setIntroDone] = useState(false);
+
+  // Stable so Intro's effects never re-run and restart the timeline.
+  const handleIntroDone = useCallback(() => setIntroDone(true), []);
+
   return (
     <>
+      {/* Rendered first so the curtain paints before anything else. The
+          sections below still mount and fetch during the intro, so the reveal
+          lands on a page that is already ready. */}
+      {!introDone && <Intro onDone={handleIntroDone} />}
+
       <Hero />
       <About />
       <Projects />

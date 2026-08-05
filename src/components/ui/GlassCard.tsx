@@ -7,17 +7,9 @@ import { cn } from "@/lib/utils";
 type Props = {
   children: React.ReactNode;
   className?: string;
-  /** Tilt magnitude in degrees. 0 disables tilt but keeps the glow. */
   tilt?: number;
-  /** Accent used for the hover glow. */
   glow?: "cyan" | "violet" | "none";
-  /** Adds a cursor-following spotlight on the card surface. */
   spotlight?: boolean;
-  /**
-   * Classes for the inner content wrapper. Children live inside that wrapper,
-   * so layout modes like `flex flex-col` (needed for `mt-auto` to work) belong
-   * here rather than on `className`, which styles the card shell.
-   */
   contentClassName?: string;
   as?: "div" | "article" | "li";
 };
@@ -29,10 +21,6 @@ const glowRing: Record<string, string> = {
   none: "",
 };
 
-/**
- * Glass bento tile. On fine-pointer devices it tilts toward the cursor in 3D;
- * on touch it degrades to a tap-scale + glow pulse.
- */
 export function GlassCard({
   children,
   className,

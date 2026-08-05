@@ -7,13 +7,14 @@ import { FaLinkedinIn } from "react-icons/fa6";
 export const site = {
   name: "Jaideep Kundu",
   firstName: "Jaideep",
-  role: "Backend & Full-Stack Engineer",
-  tagline: "Final-year B.Tech CSE @ VIT-AP · ex-SDE Intern @ Bluestock Fintech",
+  role: "Software Engineer",
+  tagline: "Currently building a C++ matching engine and reading too much about consensus.",
   blurb:
     "Real-time systems, retrieval pipelines, and the tests that keep them honest.",
   email: "jaideepkundu92@gmail.com",
   phone: "+91 96084 25857",
   location: "Amaravati, India",
+  relocation: "Open to relocate",
   resumePath: "/resume.pdf",
   url: "https://jaideepkundu.vercel.app",
 

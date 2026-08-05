@@ -6,11 +6,24 @@ import { Reveal, RevealItem } from "@/components/ui/Reveal";
 import { Section, SectionHeader } from "@/components/ui/SectionHeader";
 import { site } from "@/data/site";
 
+/* A note under each item is the difference between "I listed a buzzword"
+   and "I'm actually working through this" — and it gives the two-column
+   card enough content to fill the width it already spans. */
 const currentlyLearning = [
-  "Distributed systems",
-  "Rust",
-  "Kubernetes",
-  "System design",
+  { name: "Distributed systems", note: "Raft, quorums, partition tolerance" },
+  { name: "Rust", note: "ownership, zero-cost abstractions" },
+  { name: "Kubernetes", note: "operators and self-healing deploys" },
+  { name: "System design", note: "trade-offs under real constraints" },
+];
+
+/* The bio card is stretched to match the two cards beside it, which left a
+   dead band in its middle. Filling that with more prose would undo what's
+   good about the card — it reads in six seconds. Structure instead. */
+const rightNow = [
+  ["Building", "ApexMatch — C++ limit-order-book matcher"],
+  ["Reading", "And Then There Were None — Agatha Christie"],
+  ["Also", "chess, on and off since school"],
+  ["Lately", "losing to my own Tic-Tac-Toe engine"],
 ];
 
 export function About() {
@@ -25,7 +38,7 @@ export function About() {
             <br className="hidden sm:block" /> shipped end to end.
           </>
         }
-        description="I like problems where correctness is measurable — pipelines that must not drop rows, editors that must not lose keystrokes, models that must not guess."
+        description="I build systems where correctness is measurable — pipelines that don't drop rows, editors that don't lose keystrokes, models built on data you can audit. Most of what I make starts as a question I want answered myself."
       />
 
       <Reveal className="grid grid-cols-1 gap-4 md:grid-cols-3 md:auto-rows-[minmax(0,1fr)]">
@@ -57,8 +70,8 @@ export function About() {
             <div className="mt-6 space-y-4 text-sm leading-relaxed text-muted sm:text-[15px]">
               <p>CS undergrad at VIT-AP, 2023–2027.</p>
               <p>
-                I build things that have to keep running — real-time systems, retrieval
-                pipelines, and backends that survive concurrency.
+                How does OT actually resolve two edits landing at once? How does a matching
+                engine stay fast under load? I tend to build the thing rather than read about it.
               </p>
               <p>
                 At <span className="text-fg">Bluestock Fintech</span> I built the ETL and
@@ -67,8 +80,21 @@ export function About() {
               </p>
             </div>
 
-            {/* mt-auto anchors the chips to the card base so the taller
-                two-row span doesn't leave a void under the short bio. */}
+            {/* Occupies the gap the row-span leaves, and says the one thing
+                the rest of this section doesn't: what's happening now. */}
+            <dl className="mt-8 space-y-3 border-t border-hairline pt-6">
+              {rightNow.map(([k, v]) => (
+                <div key={k} className="flex gap-4">
+                  <dt className="w-[4.5rem] shrink-0 font-mono text-[10px] uppercase tracking-wider text-faint">
+                    {k}
+                  </dt>
+                  <dd className="text-sm text-muted">{v}</dd>
+                </div>
+              ))}
+            </dl>
+
+            {/* mt-auto pins the chips to the card base regardless of how the
+                row-span resolves, so the stack above stays top-aligned. */}
             <div className="mt-auto flex flex-wrap gap-2 pt-8">
               {["Python", "SQL", "Node.js", "React", "Docker"].map((t) => (
                 <span
@@ -133,22 +159,24 @@ export function About() {
               <p className="eyebrow">Currently learning</p>
             </div>
 
-            <ul className="mt-5 flex flex-wrap gap-2">
-              {currentlyLearning.map((item) => (
+            <p className="mt-4 text-sm leading-relaxed text-muted">
+              Going deeper on how systems behave when they scale horizontally — consensus,
+              partitioning, and the failure modes that only show up under real load.
+            </p>
+
+            {/* Two columns rather than a chip row: this card already spans the
+                grid's full width, it just wasn't using it. */}
+            <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+              {currentlyLearning.map(({ name, note }) => (
                 <li
-                  key={item}
-                  className="rounded-lg border border-accent-2/25 bg-accent-2/10 px-3 py-1.5 font-mono text-xs text-accent-2/90"
+                  key={name}
+                  className="rounded-lg border border-accent-2/25 bg-accent-2/[0.07] px-4 py-3"
                 >
-                  {item}
+                  <p className="font-mono text-xs text-accent-2/90">{name}</p>
+                  <p className="mt-1 text-[13px] leading-snug text-muted">{note}</p>
                 </li>
               ))}
             </ul>
-
-            <p className="mt-5 text-sm leading-relaxed text-muted">
-              Right now I&apos;m going deeper on how systems behave when they scale
-              horizontally — consensus, partitioning, and the failure modes that only show
-              up under real load.
-            </p>
           </GlassCard>
         </RevealItem>
 
@@ -160,7 +188,7 @@ export function About() {
             <p className="mt-3 text-sm leading-relaxed text-muted">
               I once wrote a Tic-Tac-Toe engine that is mathematically{" "}
               <span className="text-fg">unbeatable</span> — NegaMax with alpha-beta pruning,
-              solved to a Nash equilibrium. It will never lose. You can try.
+              solved to a Nash equilibrium. It has never lost.
             </p>
 
             <div className="mt-5 flex items-center gap-1.5 border-t border-hairline pt-4 text-faint">

@@ -3,14 +3,6 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-/**
- * Cover art for a project card.
- *
- * When a screenshot exists it's rendered through next/image (lazy, sized).
- * Otherwise we draw a deterministic poster from the project's accent pair —
- * an empty image well would read as broken, whereas this reads as designed.
- * Drop a file at /public/projects/<slug>.png and set `image` to swap it in.
- */
 export function ProjectPoster({
   title,
   image,

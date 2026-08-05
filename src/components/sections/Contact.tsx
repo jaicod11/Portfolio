@@ -78,7 +78,7 @@ export function Contact() {
       <SectionHeader
         index="06"
         label="Contact"
-        title="Let's build something"
+        title="Say something interesting"
         description="Open to SDE roles and interesting backend problems. The fastest way to reach me is email — I reply to everything."
       />
 
@@ -246,6 +246,9 @@ export function Contact() {
                     Based in
                   </dt>
                   <dd className="text-fg/90">{site.location}</dd>
+                  <dd className="mt-1 font-mono text-[11px] text-accent-2/80">
+                    {site.relocation}
+                  </dd>
                 </div>
               </div>
             </dl>

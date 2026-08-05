@@ -42,7 +42,11 @@
       "Bash(sed -i '' 's|localhost:4312|localhost:4315|' interact.mjs)",
       "Bash(curl -s https://api.github.com/rate_limit)",
       "Bash(python3 -c \"import sys,json;d=json.load\\(sys.stdin\\)['resources']['core'];print\\(d\\)\")",
-      "Bash(curl -s -m 60 http://localhost:4315/api/github)"
+      "Bash(curl -s -m 60 http://localhost:4315/api/github)",
+      "Bash(node intro-tests.mjs)",
+      "Bash(node intro-tests-extra.mjs)",
+      "Bash(node timeout-test.mjs)",
+      "Bash(sed -i '' 's|localhost:4316|localhost:4320|' interact.mjs)"
     ]
   }
 }

@@ -12,7 +12,7 @@ export function Stats() {
         index="05"
         label="Stats"
         title="Receipts"
-        description="Pulled live from GitHub and LeetCode. Both sit behind server-side API routes with caching and fallbacks, so a flaky upstream degrades the card rather than the page."
+        description="Pulled live from GitHub and LeetCode. Cached server-side, so a flaky upstream degrades the card and not the page."
       />
 
       <Reveal className="grid grid-cols-1 gap-4 lg:grid-cols-[1.35fr_1fr] lg:gap-5">

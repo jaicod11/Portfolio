@@ -84,6 +84,40 @@ never the page.
 
 ---
 
+## The landing intro
+
+`src/components/intro/Intro.tsx` plays a three-beat splash before the hero on
+**every** page load — there is deliberately no `sessionStorage` "seen" flag.
+
+The name is not a mesh or a texture. `particleField.ts` rasterises "Jaideep
+Kundu" into an offscreen 2D canvas using the real Space Grotesk face (read off
+the `--font-space-grotesk` custom property, since `ctx.font` won't resolve
+`var()`), then turns every pixel above `alpha > 128` into a particle target.
+It waits on `document.fonts.ready` — raced against a 1.5s timeout — before
+sampling, or the letterforms would rasterise in the fallback face and reflow.
+
+Canvas pixels and world units are unrelated scales, so the camera FOV is derived
+so that one world unit equals one CSS pixel, and the sampled points are scaled
+against the **measured** frustum width to span 72% of the viewport (84% on
+mobile). Nothing about the size is hardcoded.
+
+Stride is 2, as intended, on any normal viewport. It widens only when the fit
+ratio would compress the raster below ~1.8px of on-screen spacing — at 390px
+wide the stride-2 grid lands ~0.6px apart and the dots merge into a solid slab
+instead of reading as particles.
+
+Every way out is covered: `prefers-reduced-motion` skips the whole thing before
+first paint (no canvas is ever created), Escape and a Skip button — focusable
+from the first frame — end it early, a hard 12s timeout force-finishes it, zero
+sampled points or a failed WebGL init bail straight to the site, and a
+`<noscript>` rule hides the overlay entirely when JS never runs. Scrolling is
+locked (and Lenis paused) for the duration, and the page is forced back to the
+top before the curtain lifts so a restored scroll position can't drop the
+visitor mid-page.
+
+Note that the intro *does* create a WebGL context on mobile for its ~8s run
+(then disposes it); the hero itself still stays canvas-free on small screens.
+
 ## Accessibility & performance notes
 
 - Three.js is dynamically imported (`ssr: false`) and **only mounts on ≥768px

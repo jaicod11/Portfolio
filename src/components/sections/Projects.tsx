@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, ExternalLink } from "lucide-react";
-// lucide dropped brand marks; simple-icons still ships the GitHub logo.
 import { SiGithub as Github } from "react-icons/si";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { ProjectPoster } from "@/components/ui/ProjectPoster";
