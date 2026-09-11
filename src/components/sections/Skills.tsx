@@ -5,6 +5,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Reveal, RevealItem } from "@/components/ui/Reveal";
 import { Section, SectionHeader } from "@/components/ui/SectionHeader";
 import { skillGroups, type Skill } from "@/data/skills";
+import { cn } from "@/lib/utils";
 import { usePrefersReducedMotion } from "@/hooks/useMediaQuery";
 
 function SkillChip({ skill, index }: { skill: Skill; index: number }) {
@@ -59,12 +60,28 @@ export function Skills() {
       />
 
       <Reveal className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {skillGroups.map((group) => (
-          <RevealItem key={group.id}>
+        {skillGroups.map((group, i) => (
+          /* An odd group count leaves the last card stranded in its own row.
+             Widening it to fill the remainder closes the gap instead. */
+          <RevealItem
+            key={group.id}
+            className={cn(
+              i === skillGroups.length - 1 &&
+                skillGroups.length % 2 === 1 &&
+                "sm:col-span-2 lg:col-span-1",
+              i === skillGroups.length - 1 &&
+                skillGroups.length % 3 === 1 &&
+                "lg:col-span-3",
+            )}
+          >
             <GlassCard
               className="h-full p-6"
               tilt={5}
-              glow={group.id === "ai" || group.id === "backend" ? "violet" : "cyan"}
+              glow={
+                group.id === "ai" || group.id === "backend" || group.id === "dataviz"
+                  ? "violet"
+                  : "cyan"
+              }
             >
               <div className="flex items-baseline justify-between gap-3">
                 <h3 className="font-display text-lg font-semibold">{group.title}</h3>

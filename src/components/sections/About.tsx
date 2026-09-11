@@ -1,10 +1,11 @@
 "use client";
 
-import { Briefcase, GraduationCap, MapPin, Sparkles, Terminal } from "lucide-react";
+import { Briefcase, GraduationCap, MapPin, Sparkles, Terminal, Trophy } from "lucide-react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Reveal, RevealItem } from "@/components/ui/Reveal";
 import { Section, SectionHeader } from "@/components/ui/SectionHeader";
 import { site } from "@/data/site";
+import { cn } from "@/lib/utils";
 
 /* A note under each item is the difference between "I listed a buzzword"
    and "I'm actually working through this" — and it gives the two-column
@@ -14,6 +15,21 @@ const currentlyLearning = [
   { name: "Rust", note: "ownership, zero-cost abstractions" },
   { name: "Kubernetes", note: "operators and self-healing deploys" },
   { name: "System design", note: "trade-offs under real constraints" },
+];
+
+/* Ordered deliberately rather than chronologically: the hackathon judged with
+   an external academic partner is the one that carries weight, so it leads and
+   the rest read as supporting range. */
+const achievements: { title: string; note: string; lead?: boolean }[] = [
+  {
+    title: "Finalist — Bhopal Health Hackathon",
+    note: "with Johns Hopkins University",
+    lead: true,
+  },
+  { title: "200+ DSA problems solved", note: "LeetCode · GeeksforGeeks · Codeforces" },
+  { title: "Data Analytics Job Simulation", note: "Deloitte · Forage" },
+  { title: "AWS Academy Cloud Foundations", note: "certification" },
+  { title: "Bharatiya Antariksh Hackathon 2026", note: "ISRO · participant" },
 ];
 
 /* The bio card is stretched to match the two cards beside it, which left a
@@ -144,9 +160,11 @@ export function About() {
             </h4>
             <p className="mt-1 text-sm text-muted">B.Tech, Computer Science &amp; Engg.</p>
 
+            {/* The CGPA used to sit on the right of this row. The campus takes
+                the slot so the footer stays balanced rather than half-empty. */}
             <div className="mt-4 flex items-center justify-between border-t border-hairline pt-4">
               <span className="font-mono text-[11px] text-faint">2023 — 2027</span>
-              <span className="font-mono text-[11px] text-accent">CGPA 8.6/10</span>
+              <span className="font-mono text-[11px] text-accent">Amaravati, AP</span>
             </div>
           </GlassCard>
         </RevealItem>
@@ -197,6 +215,49 @@ export function About() {
             </div>
           </GlassCard>
         </RevealItem>
+        {/* ── Achievements ─────────────────────────────────── */}
+        <RevealItem className="md:col-span-3">
+          <GlassCard className="h-full p-6" glow="cyan">
+            <div className="flex items-center gap-2">
+              <Trophy className="h-5 w-5 text-accent" />
+              <p className="eyebrow">Achievements</p>
+            </div>
+
+            {/* The lead item keeps the accent treatment and, below lg, takes the
+                full row — it should not read as one of five equal bullets. */}
+            <ul className="mt-5 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+              {achievements.map(({ title, note, lead }) => (
+                <li
+                  key={title}
+                  className={cn(
+                    "rounded-lg border px-4 py-3",
+                    lead
+                      ? "border-accent/40 bg-accent/[0.08] sm:col-span-2 lg:col-span-1"
+                      : "border-hairline bg-white/[0.035]",
+                  )}
+                >
+                  <p
+                    className={cn(
+                      "text-[13px] font-medium leading-snug",
+                      lead ? "text-fg" : "text-fg/85",
+                    )}
+                  >
+                    {title}
+                  </p>
+                  <p
+                    className={cn(
+                      "mt-1 font-mono text-[10px] uppercase tracking-wider",
+                      lead ? "text-accent" : "text-faint",
+                    )}
+                  >
+                    {note}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </GlassCard>
+        </RevealItem>
+
       </Reveal>
     </Section>
   );
