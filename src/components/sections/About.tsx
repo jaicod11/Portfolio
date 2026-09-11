@@ -130,7 +130,7 @@ export function About() {
             <Briefcase className="h-5 w-5 text-accent-2" />
             <p className="eyebrow mt-4">Experience</p>
             <h4 className="mt-2 font-display text-lg font-semibold">Bluestock Fintech</h4>
-            <p className="mt-1 text-sm text-muted">SDE Intern · Remote</p>
+            <p className="mt-1 text-sm text-muted">Intern · Remote</p>
             <p className="mt-3 font-mono text-[11px] text-faint">May 2026 — July 2026</p>
 
             <dl className="mt-5 grid grid-cols-2 gap-3 border-t border-hairline pt-4">
